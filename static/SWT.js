@@ -387,7 +387,7 @@
                 .then(function() {
                     console.log('Service Worker 2 Registered');
                 }).catch(function(err) {
-                console.log('Service Worker 2 Failed');
+                console.log('Service Worker 2 Failed', err);
             });
         }
     };
@@ -427,9 +427,9 @@
             // 比对版本
             if (newScriptURL !== oldUrl) {
                 // 卸载 worker
-                navigator.serviceWorker.getRegistration(scope).then((registration) => {
+                navigator.serviceWorker.getRegistration(scope).then(function (registration)  {
                     console.log(registration);
-                    registration.unregister().then((boolResult) => {
+                    registration.unregister().then(function (boolResult)  {
                         if (boolResult) {
                             console.log('卸载成功', navigator.serviceWorker.controller.state);
                         } else {
@@ -440,7 +440,7 @@
                         app.initSW_2(newScriptURL, scope, initPage);
                         // TODO U4 卸载完成之后要刷新页面
                         // location.reload();
-                    }).catch((error) => {
+                    }).catch(function (error) {
                         // 出现异常
                         console.log('卸载失败', error);
                         // 重新安装
@@ -461,7 +461,7 @@
     }
 
     // app.initSW();
-    checkForUpdate('https://atuanxy.github.io/pwa/static/service-worker-2.js?d='+ (new Date().getTime()), "./", function () {
+    checkForUpdate(location.origin+'/static/service-worker-2.js?d='+ (new Date().getTime()), "./", function () {
         console.log("update over");
     })
     // setTimeout(app.testSW, 10000);
