@@ -418,12 +418,12 @@
         }
     };
     function checkForUpdate(_newScriptURL, scope, initPage) {
-        let newScriptURL =_newScriptURL;
+        var newScriptURL =_newScriptURL;
 
         // 获取当前worker 的 md5 版本
         if (navigator.serviceWorker && navigator.serviceWorker.controller) {
             // 当前页面有service worker 正在运行
-            const oldUrl = navigator.serviceWorker.controller.scriptURL;
+            var oldUrl = navigator.serviceWorker.controller.scriptURL;
             // 比对版本
             if (newScriptURL !== oldUrl) {
                 // 卸载 worker
