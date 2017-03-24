@@ -383,7 +383,7 @@
         console.log(newScriptURL);
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker
-                .register(newScriptURL)
+                .register(newScriptURL, {scope: "./"})
                 .then(function() {
                     console.log('Service Worker 2 Registered');
                 }).catch(function(err) {
