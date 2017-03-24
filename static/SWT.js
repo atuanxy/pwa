@@ -461,7 +461,7 @@
     }
 
     // app.initSW();
-    checkForUpdate(location.origin+'/static/service-worker-2.js?d='+ (new Date().getTime()), "./", function () {
+    checkForUpdate('https://atuanxy.github.io/pwa/static/service-worker-2.js?d='+ (new Date().getTime()), "./", function () {
         console.log("update over");
     })
     // setTimeout(app.testSW, 10000);
