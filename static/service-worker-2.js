@@ -26,7 +26,9 @@
 self.addEventListener('install', function(e) {
     console.log('[ServiceWorker 2] Install');
     if(self.skipWaiting){
+        console.log('[ServiceWorker 2] begin skipWaiting');
         self.skipWaiting();
+        console.log('[ServiceWorker 2] end skipWaiting');
     }
     /*e.waitUntil(
      caches.open(cacheName).then(function(cache) {
