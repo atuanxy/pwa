@@ -49,8 +49,10 @@ self.addEventListener('activate', function(e) {
      }
      }));
      })
-     );
-     return self.clients.claim();*/
+     );*/
+console.log('[ServiceWorker 2] begin self.clients.claim');
+     self.clients.claim();
+console.log('[ServiceWorker 2] begin self.clients.claim');
 });
 
 self.addEventListener('fetch', function(e) {
