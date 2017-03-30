@@ -386,6 +386,7 @@
                 .register(newScriptURL, {scope: "./"})
                 .then(function() {
                     console.log('Service Worker 2 Registered');
+                    alert("Service Worker 2 Registered!");
                 }).catch(function(err) {
                 console.log('Service Worker 2 Failed', err);
             });
@@ -399,6 +400,7 @@
                 registration.unregister().then(function(boolResult) {
                     if (boolResult) {
                         console.log('卸载成功', navigator.serviceWorker.controller.state);
+                        alert("Service Worker 2 UnRegistered!");
                     } else {
                         console.log('卸载失败');
                     }
