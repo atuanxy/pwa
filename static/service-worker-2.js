@@ -28,6 +28,7 @@ self.addEventListener('install', function(e) {
     if(self.skipWaiting){
         console.log('[ServiceWorker 2] begin skipWaiting');
         self.skipWaiting();
+        alert("skipWaiting ok!");
         console.log('[ServiceWorker 2] end skipWaiting');
     }
     /*e.waitUntil(
@@ -52,6 +53,7 @@ self.addEventListener('activate', function(e) {
      );*/
     console.log('[ServiceWorker 2] begin self.clients.claim');
     self.clients.claim();
+    alert("claim ok!");
     console.log('[ServiceWorker 2] end self.clients.claim');
 });
 
