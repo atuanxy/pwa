@@ -485,7 +485,9 @@
             msgChannel.port1.postMessage("test AAAA");
 
             // msgChannel.port2.postMessage("test AAAA");
-            navigator.serviceWorker.controller.postMessage({}, [msgChannel.port2])
+            if (navigator.serviceWorker.controller) {
+                navigator.serviceWorker.controller.postMessage({}, [msgChannel.port2]);
+            }
         })
     })
     // setTimeout(app.testSW, 10000);
