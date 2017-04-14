@@ -80,7 +80,7 @@ self.addEventListener('fetch', function(e) {
 self.addEventListener("message", function (event) {
     if(event.ports){
         event.ports[0].onmessage = function (e) {
-            console.log("msg port on message", e.data);
+            console.log("receive message from port1 onmessage:", e.data);
             event.ports[0].postMessage("call webview");
         }
     }

@@ -479,14 +479,18 @@
         console.log("update over");
         navigator.serviceWorker.ready.then(function (region) {
             msgChannel.port1.onmessage = function (event) {
+                console.log("receive message from service-worker.js, onmessage:", event.data);
                 alert("收到 worker 消息");
             }
 
-            msgChannel.port1.postMessage("test AAAA");
+            msgChannel.port1.postMessage("send message A to service-worker.js");
+            console.log("send message A to service-worker.js");
 
             // msgChannel.port2.postMessage("test AAAA");
             if (navigator.serviceWorker.controller) {
                 navigator.serviceWorker.controller.postMessage({}, [msgChannel.port2]);
+            } else {
+                console.log("navigator.serviceWorker.controller is empty");
             }
         })
     })
@@ -498,8 +502,8 @@
             // setTimeout(function () {
             //     msgChannel.port1.postMessage("test AAAA");
             // }, 300)
-            msgChannel.port1.postMessage("test AAAA");
-            console.log(2222222);
+            msgChannel.port1.postMessage("send message B to service-worker.js");
+            console.log("send message B to service-worker.js");
         }else if(document.visibilityState === 'hidden'){
             console.log("页面压后台");
             //msgChannel.port1.postMessage("test AAAA");
