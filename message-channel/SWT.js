@@ -367,20 +367,8 @@
     }
 
     // TODO add service worker code here
-    app.initSW = function() {
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker
-                .register('./service-worker.js')
-                .then(function() {
-                    console.log('Service Worker Registered');
-                }).catch(function(err) {
-                console.log('Service Worker Failed');
-            });
-        }
-    };
-
     app.initSW_2 = function(newScriptURL, scope, initPage) {
-        console.log(newScriptURL);
+        console.log("start to register serviceworker:", newScriptURL);
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker
                 .register(newScriptURL, {scope: "./"})
@@ -389,7 +377,7 @@
                     if(reg.installing){
                         state = "install";
                             navigator.serviceWorker.ready.then(function (reg){
-                                console.log("after install service worker 注册成功", reg.active.scriptURL, reg.update);
+                                console.log("install service worker success:", reg.active.scriptURL, reg.update);
                                 initPage && initPage();
                             })
                     }else if(reg.waiting){
@@ -399,94 +387,26 @@
                         state = "active"
                         initPage && initPage();
                     }
-                    console.log('Service Worker 2 Registered', state, reg.update);
+                    console.log('serviceworker registered', state, reg.update);
                 }).catch(function(err) {
-                console.log('Service Worker 2 Failed', err);
+                console.log('serviceworker register failed', err);
             });
         }
     };
 
-    app.testSW = function() {
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.getRegistration().then(function(registration) {
-                console.log(registration);
-                registration.unregister().then(function(boolResult) {
-                    if (boolResult) {
-                        console.log('卸载成功', navigator.serviceWorker.controller.state);
-                    } else {
-                        console.log('卸载失败');
-                    }
 
-                    // 重新安装
-                    app.initSW_2();
-                    // TODO U4 卸载完成之后要刷新页面
-                    //ocation.reload();
-                }).catch(function(error) {
-                    // 出现异常
-                    console.log('卸载失败', error);
-                    // 重新安装
-                    // TODO 处理异常情况
-                    app.initSW_2();
-                });
-            });
-        }
-    };
-    function checkForUpdate(_newScriptURL, scope, initPage) {
-        var newScriptURL =_newScriptURL;
-
-        // 获取当前worker 的 md5 版本
-        if (navigator.serviceWorker && navigator.serviceWorker.controller) {
-            // 当前页面有service worker 正在运行
-            var oldUrl = navigator.serviceWorker.controller.scriptURL;
-            // 比对版本
-            if (newScriptURL !== oldUrl) {
-                // 卸载 worker
-                navigator.serviceWorker.getRegistration(scope).then(function (registration)  {
-                    console.log(registration);
-                    registration.unregister().then(function (boolResult)  {
-                        if (boolResult) {
-                            console.log('卸载成功', navigator.serviceWorker.controller.state);
-                        } else {
-                            console.log('卸载失败');
-                        }
-
-                        // 重新安装
-                        app.initSW_2(newScriptURL, scope, initPage);
-                        // TODO U4 卸载完成之后要刷新页面
-                        location.reload();
-                    }).catch(function (error) {
-                        // 出现异常
-                        console.log('卸载失败', error);
-                        // 重新安装
-                        // TODO 处理异常情况
-                        app.initSW_2(newScriptURL, scope, initPage);
-                    });
-                });
-            } else {
-                // 正常页面初始化
-                app.initSW_2(newScriptURL, scope, initPage);
-            }
-        } else if (navigator.serviceWorker) {
-            // 支持service worker 尚未注册worker
-            app.initSW_2(newScriptURL, scope, initPage);
-        } else {
-            console.error('浏览器不支持service worker!!!!');
-        }
-    }
-
-    var msgChannel = new MessageChannel();    // app.initSW();
+    var msgChannel = new MessageChannel(); 
     app.initSW_2('./service-worker-2.js?d='+new Date().getTime(), "./", function () {
         console.log("update over");
         navigator.serviceWorker.ready.then(function (region) {
             msgChannel.port1.onmessage = function (event) {
                 console.log("receive message from service-worker.js, onmessage:", event.data);
-                alert("收到 worker 消息");
+                alert("receive message from service-worker.js, onmessage:" + event.data);
             }
 
-            msgChannel.port1.postMessage("send message A to service-worker.js");
-            console.log("send message A to service-worker.js");
+            msgChannel.port1.postMessage("use port1 send message A to service-worker.js");
+            console.log("use port1 send message A to service-worker.js");
 
-            // msgChannel.port2.postMessage("test AAAA");
             if (navigator.serviceWorker.controller) {
                 navigator.serviceWorker.controller.postMessage({}, [msgChannel.port2]);
             } else {
@@ -494,19 +414,15 @@
             }
         })
     })
-    // setTimeout(app.testSW, 10000);
 
     document.addEventListener('visibilitychange', function() {
         console.log(document.hidden + " || " +document.visibilityState);
         if(document.visibilityState === 'visible'){
-            // setTimeout(function () {
-            //     msgChannel.port1.postMessage("test AAAA");
-            // }, 300)
-            msgChannel.port1.postMessage("send message B to service-worker.js");
-            console.log("send message B to service-worker.js");
+            console.log("page visibilityState is visible");
+            msgChannel.port1.postMessage("use port1 send message B to service-worker.js");
+            console.log("use port1 send message B to service-worker.js");
         }else if(document.visibilityState === 'hidden'){
-            console.log("页面压后台");
-            //msgChannel.port1.postMessage("test AAAA");
+            console.log("page visibilityState is hidden");
         }
     }, false);
 
