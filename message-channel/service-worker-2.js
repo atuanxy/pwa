@@ -24,7 +24,7 @@
  ];*/
 
 self.addEventListener('install', function(e) {
-    console.log('[ServiceWorker 2] Install');
+    console.log('serviceworker install ok');
     /*if(self.skipWaiting){
         self.skipWaiting();
     }*/
@@ -39,7 +39,7 @@ self.addEventListener('install', function(e) {
 self.addEventListener('activate', function(event) {
 
     // event.waitUntil(self.clients.claim());
-    console.log('[ServiceWorker 2] Activate');
+    console.log('serviceworker activate ok');
     /*e.waitUntil(
      caches.keys().then(function(keyList) {
      return Promise.all(keyList.map(function(key) {

@@ -397,7 +397,6 @@
 
     var msgChannel = new MessageChannel(); 
     app.initSW_2('./service-worker-2.js?d='+new Date().getTime(), "./", function () {
-        console.log("update over");
         navigator.serviceWorker.ready.then(function (region) {
             msgChannel.port1.onmessage = function (event) {
                 console.log("receive from serviceworker, onmessage:", event.data);
@@ -416,7 +415,6 @@
     })
 
     document.addEventListener('visibilitychange', function() {
-        console.log(document.hidden + " || " +document.visibilityState);
         if(document.visibilityState === 'visible'){
             console.log("page visibilityState is visible");
             msgChannel.port1.postMessage("send message B to serviceworker");
