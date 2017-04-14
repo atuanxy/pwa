@@ -400,12 +400,12 @@
         console.log("update over");
         navigator.serviceWorker.ready.then(function (region) {
             msgChannel.port1.onmessage = function (event) {
-                console.log("receive message from service-worker.js, onmessage:", event.data);
-                alert("receive message from service-worker.js, onmessage:" + event.data);
+                console.log("receive from serviceworker, onmessage:", event.data);
+                alert("receive from serviceworker, onmessage:" + event.data);
             }
 
-            msgChannel.port1.postMessage("use port1 send message A to service-worker.js");
-            console.log("use port1 send message A to service-worker.js");
+            msgChannel.port1.postMessage("send message A to serviceworker");
+            console.log("send message A to serviceworker");
 
             if (navigator.serviceWorker.controller) {
                 navigator.serviceWorker.controller.postMessage({}, [msgChannel.port2]);
@@ -419,8 +419,8 @@
         console.log(document.hidden + " || " +document.visibilityState);
         if(document.visibilityState === 'visible'){
             console.log("page visibilityState is visible");
-            msgChannel.port1.postMessage("use port1 send message B to service-worker.js");
-            console.log("use port1 send message B to service-worker.js");
+            msgChannel.port1.postMessage("send message B to serviceworker");
+            console.log("send message B to serviceworker");
         }else if(document.visibilityState === 'hidden'){
             console.log("page visibilityState is hidden");
         }
