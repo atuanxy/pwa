@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>输入框测试用例</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <style style="text/css">
+        .fix-input{
+            position: fixed;
+            width: 100%;
+            bottom:0px;
+        }
+        body{
+            min-height: 300px;
+        }
+    </style>
+</head>
+<body>
+<form>
+    <div>
+        <span>测试键盘</span><input type="text" placeholder="测试键盘"/>
+    </div>
+    <div class="fix-input">
+        <span>测试键盘FixedBottom</span><input type="text" placeholder="测试键盘"/>
+    </div>
+    <script type="text/javascript">
+        alert(navigator.userAgent);
+    </script>
+</form>
+</body>
+</html>
