@@ -416,8 +416,11 @@
             // will in turn trigger the onmessage handler on messageChannel.port1.
             // See https://html.spec.whatwg.org/multipage/workers.html#dom-worker-postmessage
             if (navigator.serviceWorker.controller) {
+                console.log('transport port2 to serviceworker');
                 navigator.serviceWorker.controller.postMessage(message,
                   [messageChannel.port2]);
+            } else {
+                console.log('serviceworker controller is null');
             }
         });
     }
@@ -448,8 +451,13 @@
     document.addEventListener('visibilitychange', function() {
         if(document.visibilityState === 'visible'){
             console.log("page visibilityState is visible");
+            app.initSW_2('./service-worker-2.js?d='+new Date().getTime(), "./", function () {
+            navigator.serviceWorker.ready.then(function (region) {
+                    sendMessage("send message B to serviceworker");
+                })
+            })
             // msgChannel.port1.postMessage("send message B to serviceworker");
-            sendMessage("send message B to serviceworker");
+            // sendMessage("send message B to serviceworker");
             console.log("send message B to serviceworker");
         }else if(document.visibilityState === 'hidden'){
             console.log("page visibilityState is hidden");
