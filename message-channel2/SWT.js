@@ -427,7 +427,8 @@
 
 
     // var msgChannel = new MessageChannel(); 
-    app.initSW_2('./service-worker-2.js?d='+new Date().getTime(), "./", function () {
+    //app.initSW_2('./service-worker-2.js?d='+new Date().getTime(), "./", function () {
+    app.initSW_2('./service-worker-2.js', "./", function () {
         navigator.serviceWorker.ready.then(function (region) {
             sendMessage("send message A to serviceworker");
         })
@@ -451,7 +452,7 @@
     document.addEventListener('visibilitychange', function() {
         if(document.visibilityState === 'visible'){
             console.log("page visibilityState is visible");
-            app.initSW_2('./service-worker-2.js?d='+new Date().getTime(), "./", function () {
+            app.initSW_2('./service-worker-2.js', "./", function () {
             navigator.serviceWorker.ready.then(function (region) {
                     sendMessage("send message B to serviceworker");
                 })
