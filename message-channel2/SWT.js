@@ -427,12 +427,12 @@
 
 
     // var msgChannel = new MessageChannel(); 
-    //app.initSW_2('./service-worker-2.js?d='+new Date().getTime(), "./", function () {
-    // app.initSW_2('./service-worker-2.js', "./", function () {
-    //     navigator.serviceWorker.ready.then(function (region) {
-    //         sendMessage("send message A to serviceworker");
-    //     })
-    // })
+    // app.initSW_2('./service-worker-2.js?d='+new Date().getTime(), "./", function () {
+    app.initSW_2('./service-worker-2.js', "./", function () {
+        navigator.serviceWorker.ready.then(function (region) {
+            sendMessage("send message A to serviceworker");
+        })
+    })
     //         msgChannel.port1.onmessage = function (event) {
     //             console.log("receive from serviceworker, onmessage:", event.data);
     //             alert("receive from serviceworker, onmessage:" + event.data);
@@ -452,11 +452,7 @@
     document.addEventListener('visibilitychange', function() {
         if(document.visibilityState === 'visible'){
             console.log("page visibilityState is visible");
-            app.initSW_2('./service-worker-2.js', "./", function () {
-            navigator.serviceWorker.ready.then(function (region) {
-                    sendMessage("send message B to serviceworker");
-                })
-            })
+            sendMessage("send message B to serviceworker");
             // msgChannel.port1.postMessage("send message B to serviceworker");
             // sendMessage("send message B to serviceworker");
             console.log("send message B to serviceworker");
