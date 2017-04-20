@@ -376,10 +376,10 @@
                     var state = "default";
                     if(reg.installing){
                         state = "install";
-                            navigator.serviceWorker.ready.then(function (reg){
-                                console.log("install service worker success:", reg.active.scriptURL, reg.update);
-                                initPage && initPage();
-                            })
+                            // navigator.serviceWorker.ready.then(function (reg){
+                            //     console.log("install service worker success:", reg.active.scriptURL, reg.update);
+                            //     initPage && initPage();
+                            // })
                     }else if(reg.waiting){
                         state = "waiting"
                         initPage && initPage();
@@ -428,11 +428,11 @@
 
     // var msgChannel = new MessageChannel(); 
     //app.initSW_2('./service-worker-2.js?d='+new Date().getTime(), "./", function () {
-    app.initSW_2('./service-worker-2.js', "./", function () {
-        navigator.serviceWorker.ready.then(function (region) {
-            sendMessage("send message A to serviceworker");
-        })
-    })
+    // app.initSW_2('./service-worker-2.js', "./", function () {
+    //     navigator.serviceWorker.ready.then(function (region) {
+    //         sendMessage("send message A to serviceworker");
+    //     })
+    // })
     //         msgChannel.port1.onmessage = function (event) {
     //             console.log("receive from serviceworker, onmessage:", event.data);
     //             alert("receive from serviceworker, onmessage:" + event.data);
