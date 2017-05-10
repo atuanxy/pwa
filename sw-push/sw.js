@@ -1,10 +1,10 @@
 self.addEventListener("push", function (event) {
   console.log("call self.push");
-  event.waitUntil(
-    self.self.registration.showNotification("有新的推送消息", {
-      body: "有新的推送消息啦,点击查看。"
-    })
-  );    
+  // event.waitUntil(
+  //   self.self.registration.showNotification("有新的推送消息", {
+  //     body: "有新的推送消息啦,点击查看。"
+  //   })
+  // );    
   console.log("PushEvent data:", event.data);
 });
 
