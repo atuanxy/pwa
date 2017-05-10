@@ -11,8 +11,8 @@ if ("serviceWorker" in navigator) {
            alert("subscribe");
         } else {
           console.log("remain endpoint:", subscription.endpoint);
-          // subscription.unsubscribe();
-          console.log("send subscription to appserver");
+          subscription.unsubscribe();
+          console.log("unsubscribe, and notify appserver to remove subscription");
         }
       })
 	  .catch(function(err) {
