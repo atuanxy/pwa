@@ -29,7 +29,7 @@ self.addEventListener('activate', function(e) {
         
     }));
 
-    catch (e) {
+    } catch (e) {
             console.log('[ServiceWorker] end self.clients.claim, exception:', e);
             throw e;
         }
