@@ -25,19 +25,19 @@ self.addEventListener('activate', function(e) {
                   try {
                     console.log('[ServiceWorker] call self.clients.claim');
                     return self.clients.claim();
-                } catch (function(err)) {
+                } catch (function(err) {
                   console.log(
                       '[ServiceWorker] end self.clients.claim, exception:',
                       err);
                   throw err;
-                }
+                })
 
                 }))
 
-} catch (function(exe)) {
+} catch (function(exe) {
   console.log('[ServiceWorker] end self.clients.claim, exception:', exe);
   throw exe;
-}
+})
 
 console.log('[ServiceWorker] end self.clients.claim');
 });
