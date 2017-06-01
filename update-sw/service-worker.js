@@ -17,7 +17,14 @@ self.addEventListener('activate', function(e) {
             }))
         })
     }).then(function() {
-        return self.clients.claim()
+        try {
+            console.log('[ServiceWorker] call self.clients.claim');
+            return self.clients.claim();
+        } catch (e) {
+            console.log('[ServiceWorker] end self.clients.claim, exception:', e);
+            throw e;
+        }
+        
     }))
     console.log('[ServiceWorker] end self.clients.claim');
 });
