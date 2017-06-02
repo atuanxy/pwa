@@ -1,3 +1,4 @@
+setTimeout(
 self.addEventListener('install', function(e) {
     console.log('[ServiceWorker] Install');
     if(self.skipWaiting){
@@ -39,3 +40,4 @@ self.addEventListener('activate', function(e) {
 self.addEventListener('fetch', function(e) {
     console.log('[Service Worker] Fetch', e.request.url);
 });
+, 5000);
