@@ -1,4 +1,3 @@
-setTimeout(
 self.addEventListener('install', function(e) {
     console.log('[ServiceWorker] Install');
     if(self.skipWaiting){
@@ -11,9 +10,10 @@ self.addEventListener('install', function(e) {
 self.addEventListener('activate', function(e) {
     console.log('[ServiceWorker] Activate');
     console.log('[ServiceWorker] begin self.clients.claim');
-    try {
 
-    e.waitUntil(caches.open("CACHE_NAME_TEST").then(function(e) {
+    setTimeout(
+    try {
+        e.waitUntil(caches.open("CACHE_NAME_TEST").then(function(e) {
         return e.keys().then(function(t) {
             return Promise.all(t.map(function(t) {
                 return e["delete"](t)
@@ -33,11 +33,11 @@ self.addEventListener('activate', function(e) {
     } catch (eee) {
             console.log('[ServiceWorker] end self.clients.claim, exception:', eee);
             throw eee;
-        }
+    }
+    , 5000);
     console.log('[ServiceWorker] end self.clients.claim');
 });
 
 self.addEventListener('fetch', function(e) {
     console.log('[Service Worker] Fetch', e.request.url);
 });
-, 5000);
