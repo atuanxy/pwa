@@ -12,7 +12,6 @@ self.addEventListener('activate', function(e) {
     console.log('[ServiceWorker] begin self.clients.claim');
 
     setTimeout(
-    try {
         e.waitUntil(caches.open("CACHE_NAME_TEST").then(function(e) {
         return e.keys().then(function(t) {
             return Promise.all(t.map(function(t) {
@@ -20,20 +19,9 @@ self.addEventListener('activate', function(e) {
             }))
         })
     }).then(function() {
-        try {
             console.log('[ServiceWorker] call self.clients.claim');
-            return self.clients.claim();
-        } catch (exe) {
-            console.log('[ServiceWorker] end self.clients.claim, exception:', exe);
-            throw exe;
-        }
-        
-    }));
-
-    } catch (eee) {
-            console.log('[ServiceWorker] end self.clients.claim, exception:', eee);
-            throw eee;
-    }
+            return self.clients.claim();    
+    }))
     , 5000);
     console.log('[ServiceWorker] end self.clients.claim');
 });
