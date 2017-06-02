@@ -10,7 +10,7 @@ self.addEventListener('install', function(e) {
 self.addEventListener('activate', function(e) {
     console.log('[ServiceWorker] Activate');
     console.log('[ServiceWorker] begin self.clients.claim');
-    return self.clients.claim();
+    setTimeout( self.clients.claim(), 10000);
     // setTimeout(
     //     e.waitUntil(caches.open("CACHE_NAME_TEST").then(function(e) {
     //     return e.keys().then(function(t) {
