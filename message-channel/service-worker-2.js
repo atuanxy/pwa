@@ -23,60 +23,89 @@
  '/images/wind.png'
  ];*/
 
-self.addEventListener('install', function(e) {
-    console.log('serviceworker install ok');
-    /*if(self.skipWaiting){
-        self.skipWaiting();
-    }*/
-    /*e.waitUntil(
-     caches.open(cacheName).then(function(cache) {
-     console.log('[ServiceWorker] Caching app shell');
-     return cache.addAll(filesToCache);
-     })
-     );*/
+if(!CacheStorage.prototype.match){
+    CacheStorage.prototype.match = function(request){
+        var matchRequestInCache = function(key){
+            return caches.open(key).then(function(cache){
+                return cache.match(request);
+            });
+        };
+
+        var matchRequestInCaches = function(keys){
+            return matchRequestInCache(keys.shift()).then(function(res){
+                if(res){
+                    return res;
+                }else{
+                    if(keys.length){
+                        return matchRequestInCaches(keys);
+                    }
+                }
+            })
+        };
+
+        if(!(request instanceof Request)){
+            request = new Request(request);
+        }
+
+        return caches.keys().then(function(keys){
+            return matchRequestInCaches(keys);
+        });
+    }
+}
+
+if(!Cache.prototype.addAll){
+    Cache.prototype.addAll = function(requests){
+        var cache = this;
+        return Promise.all(requests.map(function(request){
+            if(!(request instanceof Request)){
+                request = new Request(request);
+            }
+            return fetch(request.clone()).then(function(res){
+                if (res && res.status === 200) {
+                    return cache.put(request, res);
+                }
+            });
+        }));
+    }
+    Cache.prototype.add = function(request){
+        return this.addAll([request]);
+    }
+}
+
+var CACHE_NAME = 'tm/chaoshi-fresh/4.2.17';
+var IMAGE_CACHE_NAME = CACHE_NAME + '/img';
+var IMAGE_CACHE_SIZE = 50;
+var FRESH_URL = 'https://ucbrowser.github.io/pwa/message-channel/service-worker-2.js';
+var urlsToCache = [
+    FRESH_URL,
+    'https://g.alicdn.com/secdev/sufei_data/2.0.4/index.js',
+    'https://g.alicdn.com/tm/chaoshi-fresh/4.2.17/index.bundle.js',
+    'https://g.alicdn.com/tm/chaoshi-fresh/4.2.17/index.bundle.css'
+];
+
+this.addEventListener('install', function (event) {
+    event.waitUntil(
+        caches.open(CACHE_NAME)
+            .then(function (cache) {
+                return cache.addAll(urlsToCache);
+            })
+    );
 });
 
-self.addEventListener('activate', function(event) {
-
-    // event.waitUntil(self.clients.claim());
-    console.log('serviceworker activate ok');
-    /*e.waitUntil(
-     caches.keys().then(function(keyList) {
-     return Promise.all(keyList.map(function(key) {
-     if (key !== cacheName && key !== dataCacheName) {
-     console.log('[ServiceWorker] Removing old cache', key);
-     return caches.delete(key);
-     }
-     }));
-     })
-     );
-     return self.clients.claim();*/
+this.addEventListener('activate', function (event) {
+    event.waitUntil(
+        caches.keys().then(function (cacheNames) {
+            return Promise.all(
+                cacheNames.map(function (cacheName) {
+                    if (cacheName !== CACHE_NAME && cacheName !== IMAGE_CACHE_NAME) {
+                        return caches.delete(cacheName);
+                    }
+                })
+            );
+        })
+    );
 });
 
-self.addEventListener('fetch', function(e) {
-    //console.log('[Service Worker] Fetch', e.request.url);
-    //console.log('[Service Worker] '+self.registration);
-    //console.log('[Service Worker] '+self.registration.pushManager);
-
-    /*var dataUrl = 'https://query.yahooapis.com/v1/public/yql';
-     if (e.request.url.indexOf(dataUrl) > -1) {
-     e.respondWith(
-     caches.open(dataCacheName).then(function(cache) {
-     return fetch(e.request).then(function(response){
-     cache.put(e.request.url, response.clone());
-     return response;
-     });
-     })
-     );
-     } else {
-     e.respondWith(
-     caches.match(e.request).then(function(response) {
-     return response || fetch(e.request);
-     })
-     );
-     }*/
-    // getRegId();
-});
 self.addEventListener("message", function (event) {
     if(event.ports){
         event.ports[0].onmessage = function (e) {
