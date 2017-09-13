@@ -387,18 +387,21 @@
         if (navigator.serviceWorker && navigator.serviceWorker.controller) {
             // 当前页面有service worker 正在运行
             var oldUrl = navigator.serviceWorker.controller.scriptURL;
+			console.log('Service Worker scriptURL:' + oldUrl);
+			console.log('Service Worker newScriptURL:' + newScriptURL);
             // 比对版本
             if (newScriptURL !== oldUrl) {
                 // 卸载 worker
                 navigator.serviceWorker.getRegistration(scope).then(function (registration)  {
                     console.log(registration);
+					console.log('开始卸载');
                     registration.unregister().then(function (boolResult)  {
                         if (boolResult) {
                             console.log('卸载成功');
                         } else {
                             console.log('卸载失败');
                         }
-
+						console.log('重新安装');
                         // 重新安装
                         app.initSW(newScriptURL, scope, initPage);
                     }).catch(function (error) {
@@ -411,10 +414,12 @@
                 });
             } else {
                 // 正常页面初始化
+				console.log('普通安装');
                 app.initSW(newScriptURL, scope, initPage);
             }
         } else if (navigator.serviceWorker) {
             // 支持service worker 尚未注册worker
+			console.log('首次安装');
             app.initSW(newScriptURL, scope, initPage);
         } else {
             console.error('浏览器不支持service worker!!!!');
