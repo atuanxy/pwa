@@ -5,7 +5,7 @@ self.addEventListener('install', function(e) {
     //    self.skipWaiting();
     //    console.log('[ServiceWorker] end skipWaiting');
     //}
-    //console.log("Test Install >" + "哈哈哈" + new Object());
+    console.log("Test Install >" + "哈哈哈" + new Object());
 });
 
 self.addEventListener('activate', function(e) {
@@ -21,14 +21,14 @@ self.addEventListener('activate', function(e) {
     //     })
     // }).then(function() {
     //         console.log('[ServiceWorker] call self.clients.claim');
-    //         return self.clients.claim();    
+    //         return self.clients.claim();
     // }))
     // , 10000);
     //console.log('[ServiceWorker] end self.clients.claim');
-    //console.log("Test Activate >" + "哈哈哈" + new Object());
+    console.log("Test Activate >" + "哈哈哈" + new Object());
 });
 
-//self.addEventListener('fetch', function(e) {
-//    console.log('[Service Worker] Fetch', e.request.url);
-//    console.log("Test Fetch >" + "哈%#$哈哈" + new Object())
-//});
+self.addEventListener('fetch', function(e) {
+    console.log('[Service Worker] Fetch', e.request.url);
+    console.log("Test Fetch >" + "哈%#$哈哈" + new Object())
+});
